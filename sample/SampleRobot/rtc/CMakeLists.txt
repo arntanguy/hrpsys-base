@@ -20,7 +20,7 @@ if(NOT OPENRTM_IDL_DIR)
   set(python_dist_pkg_dir lib/python${PYTHON_VERSION}/dist-packages)
 endif()
 # idl
-set(idl_flags "-bcxx -Wbuse_quotes -Wbh=.hh -Wbs=Sk.cpp -Wba -Wbd=DynSk.cpp -I${OPENRTM_IDL_DIR}")
+set(idl_flags -bcxx -Wbuse_quotes -Wbh=.hh -Wbs=Sk.cpp -Wba -Wbd=DynSk.cpp -I${OPENRTM_IDL_DIR})
 add_custom_command(
   OUTPUT SampleComponentService.hh SampleComponentServiceSk.cpp SampleComponentServiceDynSk.cpp
   COMMAND omniidl ${idl_flags} ${CMAKE_CURRENT_SOURCE_DIR}/SampleComponentService.idl
