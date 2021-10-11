@@ -20,12 +20,13 @@ if(NOT OPENRTM_IDL_DIR)
   set(python_dist_pkg_dir lib/python${PYTHON_VERSION}/dist-packages)
 endif()
 # idl
-set(idl_flags -bcxx -Wbuse_quotes -Wbh=.hh -Wbs=Sk.cpp -Wba -Wbd=DynSk.cpp -I${OPENRTM_IDL_DIR})
+set(idl_flags "-bcxx -Wbuse_quotes -Wbh=.hh -Wbs=Sk.cpp -Wba -Wbd=DynSk.cpp -I${OPENRTM_IDL_DIR}")
 add_custom_command(
   OUTPUT SampleComponentService.hh SampleComponentServiceSk.cpp SampleComponentServiceDynSk.cpp
   COMMAND omniidl ${idl_flags} ${CMAKE_CURRENT_SOURCE_DIR}/SampleComponentService.idl
   DEPENDS SampleComponentService.idl
   )
+message(STATUS "IDL command: omniidl ${idl_flags} ${CMAKE_CURRENT_SOURCE_DIR}/SampleComponentService.idl")
 add_custom_target(SampleComponentService.idl.compiled ALL DEPENDS SampleComponentService.hh SampleComponentServiceSk.cpp SampleComponentServiceDynSk.cpp)
 
 # plugins comps
@@ -41,8 +42,10 @@ target_link_libraries(SampleComponentComp ${libs})
 
 set(target SampleComponent SampleComponentComp)
 
-add_dependencies(SampleComponent SampleComponentService.hh)
-add_dependencies(SampleComponentComp SampleComponentService.hh)
+if(${CMAKE_VERSION} VERSION_LESS "3.1.6")
+  add_dependencies(SampleComponent SampleComponentService.hh)
+  add_dependencies(SampleComponentComp SampleComponentService.hh)
+endif()
 
 configure_file(samplerobot_sample_component.py.in ${CMAKE_CURRENT_BINARY_DIR}/samplerobot_sample_component.py)
 
