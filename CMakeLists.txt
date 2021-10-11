@@ -13,6 +13,7 @@ include(FindPkgConfig)
 include(CheckIncludeFiles)
 
 option(ENABLE_INSTALL_RPATH "Enable RPATH setting for installed binary files" OFF)
+option(WITH_PCL "Enable PCL support" ON)
 
 set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
@@ -159,7 +160,9 @@ pkg_check_modules(GLEW glew)
 if (NOT GLEW_FOUND)
   message(WARNING "Package GLEW is not found")
 endif()
-find_package(PCL)
+if(${WITH_PCL})
+  find_package(PCL)
+endif()
 if(OpenCV_FOUND AND OPENGL_FOUND AND GLEW_FOUND AND GLUT_FOUND AND SDL_FOUND)
   if(APPLE)
     if(PCL_FOUND) # qhull is included in pcl
